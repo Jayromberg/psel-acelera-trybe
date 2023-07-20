@@ -5,6 +5,10 @@
   "repository": "git@github.com:Jayromberg/psel-acelera-trybe.git",
   "author": "jayromberg <jayro.dev@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "lint:fix": "prettier --write .",
+    "lint:check": "prettier --check ."
+  },
   "devDependencies": {
     "prettier": "^3.0.0"
   }
