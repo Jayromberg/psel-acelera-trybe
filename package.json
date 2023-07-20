@@ -4,5 +4,8 @@
   "main": "index.js",
   "repository": "git@github.com:Jayromberg/psel-acelera-trybe.git",
   "author": "jayromberg <jayro.dev@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^3.0.0"
+  }
 }
