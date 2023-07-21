@@ -8,13 +8,15 @@
   "scripts": {
     "lint:fix": "prettier --write .",
     "lint:check": "prettier --check .",
-    "postinstall": "ts-node scripts/postinstall.ts"
+    "postinstall": "ts-node scripts/postinstall.ts",
+    "dev": "ts-node scripts/dev.ts"
   },
   "dependencies": {
     "ts-node": "^10.9.1"
   },
   "devDependencies": {
     "@types/node": "^20.4.2",
+    "kill-port": "^2.0.1",
     "prettier": "^3.0.0",
     "typescript": "^5.1.6"
   }
