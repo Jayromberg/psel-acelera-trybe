@@ -21,3 +21,6 @@ try {
 } catch (error) {
   console.log(error);
 }
+
+console.log("========================================");
+console.log("[RUN DEV]: RUNNING DEV");
