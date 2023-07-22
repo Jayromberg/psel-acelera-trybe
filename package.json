@@ -15,6 +15,7 @@
     "services:stop": "docker-compose -f infra/docker-compose.development.yml stop || docker compose -f infra/docker-compose.development.yml stop"
   },
   "dependencies": {
+    "pg": "^8.11.1",
     "ts-node": "^10.9.1"
   },
   "devDependencies": {
