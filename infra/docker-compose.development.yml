@@ -4,7 +4,7 @@ services:
     container_name: "web"
     build: ./frontend
     ports:
-      - 3500:3000
+      - 3500:3499
     working_dir: /frontend
     volumes:
       - ../frontend:/frontend

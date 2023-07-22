@@ -10,7 +10,7 @@
     "lint:check": "prettier --check .",
     "postinstall": "ts-node scripts/postinstall.ts",
     "dev": "ts-node scripts/dev.ts",
-    "kill:ports": "kill-port 3000 4000",
+    "kill:ports": "kill-port 3499 3999",
     "services:up": "docker-compose -f infra/docker-compose.development.yml up -d || docker compose -f infra/docker-compose.development.yml up -d",
     "services:stop": "docker-compose -f infra/docker-compose.development.yml stop || docker compose -f infra/docker-compose.development.yml stop"
   },
