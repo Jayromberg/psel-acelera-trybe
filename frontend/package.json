@@ -1,13 +1,13 @@
 {
   "name": "frontend",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
   "scripts": {
     "dev": "next dev -p 3499",
-    "lint": "next lint",
-    "lint:check": "prettier --check .",
-    "lint:fix": "prettier --write ."
+    "lint": "yarn lint:next && yarn lint:prettier",
+    "lint:next": "next lint",
+    "lint:prettier": "prettier --check .",
+    "lint:fix": "eslint --fix && prettier --write ."
   },
   "dependencies": {
     "next": "^13.4.10",
@@ -15,12 +15,12 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@rocketseat/eslint-config": "^2.1.0",
     "@types/node": "20.4.2",
     "@types/react": "18.2.15",
     "autoprefixer": "^10.4.14",
     "eslint": "^8.45.0",
     "eslint-config-next": "^13.4.12",
+    "eslint-config-prettier": "^8.8.0",
     "postcss": "^8.4.27",
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.4.1",
