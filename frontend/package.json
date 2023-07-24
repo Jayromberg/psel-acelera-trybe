@@ -5,7 +5,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "next dev -p 3499",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:check": "prettier --check .",
+    "lint:fix": "prettier --write ."
   },
   "dependencies": {
     "next": "^13.4.10",
