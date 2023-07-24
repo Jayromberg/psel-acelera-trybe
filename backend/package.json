@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "lint:fix": "prettier --write .",
-    "lint:check": "prettier --check .",
+    "lint": "yarn lint:check && yarn lint:prettier",
+    "lint:check": "eslint .",
+    "lint:prettier": "prettier --check .",
+    "lint:fix": "eslint --fix && prettier --write .",
     "build": "npx tsc",
     "dev": "concurrently \"yarn build --watch\" \"nodemon dist/server.js\""
   },
