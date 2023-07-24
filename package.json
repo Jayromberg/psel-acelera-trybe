@@ -10,8 +10,9 @@
     "lint": "ts-node scripts/eslint.ts",
     "postinstall": "ts-node scripts/postinstall.ts",
     "kill:ports": "kill-port $(grep WEB_PORT .env | cut -d '=' -f2)  $(grep API_PORT .env | cut -d '=' -f2)",
-    "services:up": "docker-compose -f infra/docker-compose.development.yml up -d || docker compose -f infra/docker-compose.development.yml up -d",
-    "services:stop": "docker-compose -f infra/docker-compose.development.yml stop || docker compose -f infra/docker-compose.development.yml stop"
+    "services:up": "docker-compose -f docker-compose.development.yml --env-file .env up -d || docker compose -f docker-compose.development.yml --env-file .env up -d",
+    "services:stop": "docker-compose -f docker-compose.development.yml --env-file .env stop || docker compose -f docker-compose.development.yml --env-file .env stop",
+    "services:down": "docker-compose -f docker-compose.development.yml --env-file .env down || docker compose -f docker-compose.development.yml --env-file .env down"
   },
   "dependencies": {
     "dotenv": "^16.3.1",

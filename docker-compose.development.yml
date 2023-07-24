@@ -3,32 +3,34 @@ services:
   web:
     container_name: "web"
     build: ./frontend
+    env_file:
+      - .env
     ports:
-      - 3500:3499
+      - 3500:${WEB_PORT}
     working_dir: /frontend
     volumes:
-      - ../frontend:/frontend
-    command: dev
+      - ./frontend:/frontend
+    command: dev -p ${WEB_PORT}
     depends_on:
       - api
   api:
     container_name: "api"
     build: ./backend
+    env_file:
+      - .env
     ports:
-      - 4000:3999
+      - 4000:${API_PORT}
     working_dir: /backend
     volumes:
-      - ../backend:/backend
+      - ./backend:/backend
     command: dev
-    env_file:
-      - ../backend/.env
     depends_on:
       - postgres_dev
   postgres_dev:
     container_name: "postgres-dev"
     image: "postgres:14.1-alpine"
     env_file:
-      - ../.env
+      - .env
     ports:
       - "54320:5432"
     volumes:
