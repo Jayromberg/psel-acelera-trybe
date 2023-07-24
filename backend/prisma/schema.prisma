@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id String @id @default(cuid())
+  name String
+  email String @unique
+  identifier String @unique
+  password String
+  role String
+  status Boolean
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  shopping Transaction[]
+
+  @@map("accounts")
+}
+
+model Transaction {
+  id String @id @default(cuid())
+  customer_id String
+  date DateTime
+  value Float
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  cashbacks Cashback[]
+
+  customer Account @relation(fields: [customer_id], references: [id])
+  @@map("transactions")
+}
+
+model Cashback {
+  id String @id @default(cuid())
+  transaction_id String
+  cashback Float
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  transaction Transaction @relation(fields: [transaction_id], references: [id])
+}
