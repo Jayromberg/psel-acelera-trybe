@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "next dev -p 3499",
+    "dev": "next dev",
     "lint": "yarn lint:next && yarn lint:prettier",
     "lint:next": "next lint",
     "lint:prettier": "prettier --check .",

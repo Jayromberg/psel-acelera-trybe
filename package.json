@@ -9,11 +9,12 @@
     "dev": "ts-node scripts/dev.ts",
     "lint": "ts-node scripts/eslint.ts",
     "postinstall": "ts-node scripts/postinstall.ts",
-    "kill:ports": "kill-port 3499 3999",
+    "kill:ports": "kill-port $(grep WEB_PORT .env | cut -d '=' -f2)  $(grep API_PORT .env | cut -d '=' -f2)",
     "services:up": "docker-compose -f infra/docker-compose.development.yml up -d || docker compose -f infra/docker-compose.development.yml up -d",
     "services:stop": "docker-compose -f infra/docker-compose.development.yml stop || docker compose -f infra/docker-compose.development.yml stop"
   },
   "dependencies": {
+    "dotenv": "^16.3.1",
     "pg": "^8.11.1",
     "ts-node": "^10.9.1"
   },
