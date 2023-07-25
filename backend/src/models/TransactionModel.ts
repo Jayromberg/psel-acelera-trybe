@@ -22,8 +22,19 @@ class CustomerModel implements PaymentModel<ITransaction> {
     });
   }
 
-  PaymentsList(): Promise<ITransaction[]> {
-    return this.prismaClient.transaction.findMany();
+  PaymentsList(customerId: string): Promise<ITransaction[]> {
+    return this.prismaClient.transaction.findMany({
+      where: {
+        customerId,
+      },
+      include: {
+        cashback: {
+          select: {
+            cashback: true,
+          },
+        },
+      },
+    });
   }
 
   findPaymentById(id: string): Promise<ITransaction | null> {

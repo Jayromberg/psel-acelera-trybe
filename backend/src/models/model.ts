@@ -10,6 +10,6 @@ export interface Model<T> extends SimpleModel<T> {
 }
 
 export interface PaymentModel<T> extends SimpleModel<T> {
-  PaymentsList(): Promise<T[]>;
+  PaymentsList(customerId: string): Promise<T[]>;
   findPaymentById(id: string): Promise<T | null>;
 }
