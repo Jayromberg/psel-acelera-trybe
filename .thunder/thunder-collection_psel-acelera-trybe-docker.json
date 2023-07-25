@@ -1,0 +1,28 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "psel-acelera-trybe-docker",
+    "dateExported": "2023-07-25T15:25:28.606Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "68a96441-986d-47f7-86e2-ffa07a6d22e1",
+            "colId": "5f4d8fbf-6a8c-4020-abc3-dc8c31e03c73",
+            "containerId": "",
+            "name": "http://localhost:4000/account",
+            "url": "http://localhost:4000/account",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-07-25T15:25:16.992Z",
+            "modified": "2023-07-25T15:25:16.992Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"jayromberg\",\n  \"email\": \"test@test.com\",\n  \"password\": \"1234ja\",\n  \"identifier\": \"12345689-11\"\n}\n",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}

@@ -1,0 +1,28 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "psel-acelera-trybe",
+    "dateExported": "2023-07-25T15:17:08.414Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "632e8380-e373-4aa0-8304-0590c32b8c73",
+            "colId": "4db539bf-405c-4a57-b170-11793b31262d",
+            "containerId": "",
+            "name": "http://localhost:3999/account",
+            "url": "http://localhost:3999/account",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-07-25T15:16:45.900Z",
+            "modified": "2023-07-25T15:16:45.900Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"jayromberg\",\n  \"email\": \"test@test.com.br\",\n  \"password\": \"1234ja\",\n  \"identifier\": \"12345689-10\"\n}\n",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}
