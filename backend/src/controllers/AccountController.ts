@@ -11,8 +11,7 @@ export class AccountController {
         email,
         password,
         identifier,
-        role: "CUSTOMER",
-        status: false,
+        isActive: false,
       },
     });
 
