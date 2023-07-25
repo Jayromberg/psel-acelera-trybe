@@ -2,8 +2,14 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+generator erd {
+  provider = "prisma-erd-generator"
+  theme    = "dark"
+  output   = "../../ERD.svg"
 }
 
 datasource db {
@@ -12,41 +18,40 @@ datasource db {
 }
 
 model Account {
-  id String @id @default(cuid())
-  name String
-  email String @unique
-  identifier String @unique
-  password String
-  role String
-  status Boolean
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
-
-  shopping Transaction[]
+  id         String        @id @default(cuid())
+  name       String
+  email      String        @unique
+  identifier String        @unique
+  password   String
+  role       String
+  status     Boolean
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  shopping   Transaction[]
 
   @@map("accounts")
 }
 
 model Transaction {
-  id String @id @default(cuid())
-  customer_id String
-  date DateTime
-  value Float
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  id         String    @id @default(cuid())
+  customerId String
+  customer   Account   @relation(fields: [customerId], references: [id])
+  date       DateTime
+  value      Float
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  cashback   Cashback?
 
-  cashbacks Cashback[]
-
-  customer Account @relation(fields: [customer_id], references: [id])
   @@map("transactions")
 }
 
 model Cashback {
-  id String @id @default(cuid())
-  transaction_id String
-  cashback Float
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  id            String      @id @default(cuid())
+  transactionId String      @unique
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  cashback      Float
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 
-  transaction Transaction @relation(fields: [transaction_id], references: [id])
+  @@map("cashback")
 }
