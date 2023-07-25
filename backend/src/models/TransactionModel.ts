@@ -42,6 +42,13 @@ class CustomerModel implements PaymentModel<ITransaction> {
       where: {
         id,
       },
+      include: {
+        cashback: {
+          select: {
+            cashback: true,
+          },
+        },
+      },
     });
   }
 }
