@@ -1,10 +1,6 @@
-import { Router } from "express";
-import { AccountController } from "../controllers/AccountController";
+import { Express } from "express";
+import accountRoutes from "./accountRoutes";
 
-const accountController = new AccountController();
-
-const router = Router();
-
-router.post("/account", accountController.create);
-
-export { router };
+export default (app: Express) => {
+  app.use(accountRoutes);
+};
