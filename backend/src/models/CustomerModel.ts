@@ -31,9 +31,11 @@ class CustomerModel implements Model<IAccount> {
       },
     });
   }
+
   listAllAccount(): Promise<IAccount[]> {
     return this.prismaClient.account.findMany();
   }
+
   update(id: string, data: IAccount): Promise<IAccount> {
     const { name, email, password } = data;
 
@@ -48,6 +50,7 @@ class CustomerModel implements Model<IAccount> {
       },
     });
   }
+
   async delete(id: string): Promise<void> {
     this.prismaClient.account.update({
       where: {
