@@ -1,14 +1,14 @@
-import { SimpleModel, Model, PaymentModel } from "../models/model";
+import { CustomerModel, PaymentModel } from "../models/model";
 import { MethodDoesntExistError } from "../erros";
 
 abstract class Service<T> {
-  protected model: SimpleModel<T> | Model<T> | PaymentModel<T>;
-  constructor(model: SimpleModel<T> | Model<T> | PaymentModel<T>) {
+  protected model: CustomerModel<T> | PaymentModel<T>;
+  constructor(model: CustomerModel<T> | PaymentModel<T>) {
     this.model = model;
   }
 
   async create(data: T): Promise<T> {
-    const model = this.model as Model<T>;
+    const model = this.model as CustomerModel<T>;
     if (model.create === undefined) {
       throw new MethodDoesntExistError("create");
     }
@@ -16,31 +16,24 @@ abstract class Service<T> {
   }
 
   async findAccountById(id: string): Promise<T | null> {
-    const model = this.model as Model<T>;
+    const model = this.model as CustomerModel<T>;
     if (model.findAccountById === undefined) {
       throw new MethodDoesntExistError("findAccountById");
     }
     return model.findAccountById(id);
   }
 
-  async listAllAccount(): Promise<T[]> {
-    const model = this.model as Model<T>;
-    if (model.listAllAccount === undefined) {
-      throw new MethodDoesntExistError("listAllAccount");
-    }
-    return model.listAllAccount();
-  }
-
-  async update(id: string, data: T): Promise<T> {
-    const model = this.model as Model<T>;
+  async update(data: Partial<T>): Promise<T> {
+    const model = this.model as CustomerModel<T>;
     if (model.update === undefined) {
       throw new MethodDoesntExistError("update");
     }
+    const id = "clkjyd7sq0000pi4nyd3o68qi";
     return model.update(id, data);
   }
 
   async delete(id: string): Promise<void> {
-    const model = this.model as Model<T>;
+    const model = this.model as CustomerModel<T>;
     if (model.delete === undefined) {
       throw new MethodDoesntExistError("delete");
     }

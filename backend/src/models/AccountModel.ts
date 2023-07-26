@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import prisma from "../database/prismaClient";
 import { IAccount } from "../interfaces";
-import { Model } from "./model";
+import { CustomerModel } from "./model";
 
-class CustomerModel implements Model<IAccount> {
+class AccountModel implements CustomerModel<IAccount> {
   private prismaClient: PrismaClient;
 
   constructor() {
@@ -19,7 +19,6 @@ class CustomerModel implements Model<IAccount> {
         email,
         password,
         identifier,
-        isActive: true,
       },
     });
   }
@@ -30,10 +29,6 @@ class CustomerModel implements Model<IAccount> {
         id,
       },
     });
-  }
-
-  listAllAccount(): Promise<IAccount[]> {
-    return this.prismaClient.account.findMany();
   }
 
   update(id: string, data: IAccount): Promise<IAccount> {
@@ -63,4 +58,4 @@ class CustomerModel implements Model<IAccount> {
   }
 }
 
-export default CustomerModel;
+export default AccountModel;

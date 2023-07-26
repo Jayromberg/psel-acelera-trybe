@@ -13,7 +13,6 @@ function httpError(
     return res.status(400).json({ message: err.issues[0].message });
   }
   const { statusCode, message } = err as BaseError;
-  console.error(err);
   res.status(statusCode || 500).json({ message });
 }
 

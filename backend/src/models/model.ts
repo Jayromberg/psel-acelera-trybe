@@ -1,11 +1,7 @@
-export interface SimpleModel<T> {
+export interface CustomerModel<T> {
   create(data: T): Promise<T>;
-}
-
-export interface Model<T> extends SimpleModel<T> {
   findAccountById(id: string): Promise<T | null>;
-  listAllAccount(): Promise<T[]>;
-  update(id: string, data: T): Promise<T>;
+  update(id: string, data: Partial<T>): Promise<T>;
   delete(id: string): Promise<void>;
 }
 

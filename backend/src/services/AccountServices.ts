@@ -1,10 +1,10 @@
 import { IAccount } from "../interfaces";
-import { SimpleModel } from "../models/model";
-import CustomerModel from "../models/CustomerModel";
+import { CustomerModel } from "../models/model";
+import AccountModel from "../models/AccountModel";
 import Service from "./Service";
 
 class AccountServices extends Service<IAccount> {
-  constructor(model: SimpleModel<IAccount> = new CustomerModel()) {
+  constructor(model: CustomerModel<IAccount> = new AccountModel()) {
     super(model);
   }
 
@@ -12,8 +12,8 @@ class AccountServices extends Service<IAccount> {
     return super.create(data);
   }
 
-  async update(id: string, data: IAccount): Promise<IAccount> {
-    return super.update(id, data);
+  async update(data: Partial<IAccount>): Promise<IAccount> {
+    return super.update(data);
   }
 }
 
