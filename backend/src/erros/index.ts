@@ -21,3 +21,10 @@ export class BadRequestError extends BaseError {
     super(statusCode, message);
   }
 }
+
+export class NotFoundError extends BaseError {
+  constructor(message: string) {
+    const statusCode = 404;
+    super(statusCode, message);
+  }
+}

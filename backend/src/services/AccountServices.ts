@@ -9,13 +9,20 @@ class AccountServices extends Service<IAccount> {
     super(model);
   }
 
-  async create(data: IAccount): Promise<IAccount> {
+  async create(data: IAccount): Promise<{ token: string }> {
     data.password = await hashPassword(data.password);
     return super.create(data);
   }
 
-  async update(data: Partial<IAccount>): Promise<IAccount> {
-    return super.update(data);
+  async update(
+    token: string,
+    data: Partial<IAccount>,
+  ): Promise<Partial<IAccount>> {
+    const { name, email, identifier, updatedAt } = await super.update(
+      token,
+      data,
+    );
+    return { name, email, identifier, updatedAt };
   }
 }
 

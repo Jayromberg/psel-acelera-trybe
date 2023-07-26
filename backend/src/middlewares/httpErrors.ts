@@ -12,8 +12,14 @@ function httpError(
   if (err instanceof ZodError) {
     return res.status(400).json({ message: err.issues[0].message });
   }
+
   const { statusCode, message } = err as BaseError;
-  res.status(statusCode || 500).json({ message });
+
+  if (!statusCode) {
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+
+  res.status(statusCode).json({ message });
 }
 
 export default httpError;

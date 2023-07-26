@@ -1,5 +1,7 @@
+import { JwtPayload } from "jsonwebtoken";
 import { CustomerModel, PaymentModel } from "../models/model";
 import { MethodDoesntExistError } from "../erros";
+import { generateToken, verifyToken } from "../utils/jwt";
 
 abstract class Service<T> {
   protected model: CustomerModel<T> | PaymentModel<T>;
@@ -7,12 +9,13 @@ abstract class Service<T> {
     this.model = model;
   }
 
-  async create(data: T): Promise<T> {
+  async create(data: T): Promise<{ token: string }> {
     const model = this.model as CustomerModel<T>;
     if (model.create === undefined) {
       throw new MethodDoesntExistError("create");
     }
-    return model.create(data);
+    const response = await model.create(data);
+    return { token: generateToken<T>(response) };
   }
 
   async findAccountById(id: string): Promise<T | null> {
@@ -23,12 +26,12 @@ abstract class Service<T> {
     return model.findAccountById(id);
   }
 
-  async update(data: Partial<T>): Promise<T> {
+  async update(token: string, data: Partial<T>): Promise<Partial<T>> {
     const model = this.model as CustomerModel<T>;
     if (model.update === undefined) {
       throw new MethodDoesntExistError("update");
     }
-    const id = "clkjyd7sq0000pi4nyd3o68qi";
+    const { id } = verifyToken(token) as JwtPayload;
     return model.update(id, data);
   }
 
