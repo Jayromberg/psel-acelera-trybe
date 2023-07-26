@@ -1,10 +1,8 @@
 import { Router } from "express";
-import { AccountController } from "../controllers/AccountController";
-
-const accountController = new AccountController();
+import { create } from "../controllers/AccountController";
 
 const accountRoutes = Router();
 
-accountRoutes.post("/account", accountController.create);
+accountRoutes.post("/account", create);
 
 export default accountRoutes;

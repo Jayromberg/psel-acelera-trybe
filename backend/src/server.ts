@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+import "express-async-errors";
 import path from "path";
 import app from "./app";
 import prisma from "./database/prismaClient";

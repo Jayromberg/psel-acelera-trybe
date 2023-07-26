@@ -1,15 +1,23 @@
 export class BaseError extends Error {
-  status: number;
+  statusCode: number;
 
   constructor(status: number, message: string) {
     super(message);
     this.name = this.constructor.name;
-    this.status = status;
+    this.statusCode = status;
   }
 }
 
 export class MethodDoesntExistError extends BaseError {
   constructor(Method: string) {
-    super(404, `Method ${Method} is invalid`);
+    const statusCode = 404;
+    super(statusCode, `Method ${Method} is invalid`);
+  }
+}
+
+export class BadRequestError extends BaseError {
+  constructor(message: string) {
+    const statusCode = 400;
+    super(statusCode, message);
   }
 }

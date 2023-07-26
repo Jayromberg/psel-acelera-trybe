@@ -4,11 +4,8 @@ import CustomerModel from "../models/CustomerModel";
 import Service from "./Service";
 
 class AccountServices extends Service<IAccount> {
-  protected model: SimpleModel<IAccount>;
-
-  constructor(model: SimpleModel<IAccount>) {
+  constructor(model: SimpleModel<IAccount> = new CustomerModel()) {
     super(model);
-    this.model = new CustomerModel();
   }
 
   async create(data: IAccount): Promise<IAccount> {

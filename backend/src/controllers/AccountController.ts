@@ -1,20 +1,10 @@
 import { Response, Request } from "express";
-import prisma from "../database/prismaClient";
+import { accountSchema } from "./schemas/accountSchema";
+import AccountServices from "../services/AccountServices";
 
-export class AccountController {
-  async create(req: Request, res: Response) {
-    const { name, email, password, identifier } = req.body;
-
-    const account = await prisma.account.create({
-      data: {
-        name,
-        email,
-        password,
-        identifier,
-        isActive: false,
-      },
-    });
-
-    res.status(201).json(account);
-  }
-}
+export const create = async (req: Request, res: Response) => {
+  const data = accountSchema.parse(req.body);
+  const accountServices = new AccountServices();
+  const account = await accountServices.create(data);
+  res.status(201).json(account);
+};
