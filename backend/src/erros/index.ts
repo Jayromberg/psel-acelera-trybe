@@ -8,8 +8,8 @@ export class BaseError extends Error {
   }
 }
 
-export class FunctionDoesntExistError extends BaseError {
-  constructor(functionName: string) {
-    super(404, `Function ${functionName} is invalid`);
+export class MethodDoesntExistError extends BaseError {
+  constructor(Method: string) {
+    super(404, `Method ${Method} is invalid`);
   }
 }

@@ -10,8 +10,8 @@ class CustomerModel implements PaymentModel<ITransaction> {
     this.prismaClient = prisma;
   }
 
-  create(data: ITransaction): Promise<ITransaction> {
-    const { customerId, date, value } = data;
+  pay(customerId: string, data: ITransaction): Promise<ITransaction> {
+    const { date, value } = data;
 
     return this.prismaClient.transaction.create({
       data: {
@@ -22,7 +22,7 @@ class CustomerModel implements PaymentModel<ITransaction> {
     });
   }
 
-  PaymentsList(customerId: string): Promise<ITransaction[]> {
+  paymentsList(customerId: string): Promise<ITransaction[]> {
     return this.prismaClient.transaction.findMany({
       where: {
         customerId,

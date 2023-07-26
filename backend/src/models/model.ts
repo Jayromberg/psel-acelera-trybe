@@ -9,7 +9,8 @@ export interface Model<T> extends SimpleModel<T> {
   delete(id: string): Promise<void>;
 }
 
-export interface PaymentModel<T> extends SimpleModel<T> {
-  PaymentsList(customerId: string): Promise<T[]>;
+export interface PaymentModel<T> {
+  pay(customerId: string, data: T): Promise<T>;
+  paymentsList(customerId: string): Promise<T[]>;
   findPaymentById(id: string): Promise<T | null>;
 }
