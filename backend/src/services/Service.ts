@@ -1,8 +1,7 @@
-import { JwtPayload } from "jsonwebtoken";
 import { CustomerModel, PaymentModel } from "../models/model";
 import { MethodDoesntExistError } from "../erros";
 import { hashPassword } from "../utils/bcrypt";
-import { generateToken, verifyToken } from "../utils/jwt";
+import { generateToken } from "../utils/jwt";
 import { IAccount } from "../interfaces";
 
 abstract class Service<T> {
@@ -18,50 +17,63 @@ abstract class Service<T> {
       throw new MethodDoesntExistError("create");
     }
 
-    data.password = await hashPassword(data);
-    const response = await model.create(data);
-    return { token: generateToken<T>(response) };
+    const hashedPassword = await hashPassword(data.password);
+    const response = await model.create({ ...data, password: hashedPassword });
+    const token = generateToken<T>(response);
+    return { token };
   }
 
   async findAccountById(id: string): Promise<T | null> {
-    const model = this.model as CustomerModel<T>;
-    if (!model.findAccountById) {
+    const customerModel = this.model as CustomerModel<T>;
+
+    if (!customerModel.findAccountById) {
       throw new MethodDoesntExistError("findAccountById");
     }
-    return model.findAccountById(id);
+
+    return customerModel.findAccountById(id);
   }
 
-  async update(token: string, data: Partial<T>): Promise<Partial<T>> {
-    const model = this.model as CustomerModel<T>;
-    if (!model.update) {
+  async update(id: string, data: Partial<T>): Promise<Partial<T>> {
+    const customerModel = this.model as CustomerModel<T>;
+
+    if (!customerModel.updateAccount) {
       throw new MethodDoesntExistError("update");
     }
-    const { id } = verifyToken(token) as JwtPayload;
-    return model.update(id, data);
+
+    return customerModel.updateAccount(id, data);
   }
 
   async delete(id: string): Promise<void> {
-    const model = this.model as CustomerModel<T>;
-    if (!model.delete) {
+    const customerModel = this.model as CustomerModel<T>;
+
+    if (!customerModel.delete) {
       throw new MethodDoesntExistError("delete");
     }
-    return model.delete(id);
+
+    return customerModel.delete(id);
   }
 
-  async paymentsList(customerId: string): Promise<T[]> {
-    const model = this.model as PaymentModel<T>;
-    if (model.paymentsList === undefined) {
-      throw new MethodDoesntExistError("PaymentsList");
+  async getPaymentsList(customerId: string): Promise<T[]> {
+    const paymentModel = this.model as PaymentModel<T>;
+
+    if (!paymentModel.getPaymentsList) {
+      throw new MethodDoesntExistError("getPaymentsList");
     }
-    return model.paymentsList(customerId);
+
+    return paymentModel.getPaymentsList(customerId);
   }
 
-  async findPaymentById(id: string): Promise<T | null> {
+  async findPaymentById(
+    customerId: string,
+    paymentId: string,
+  ): Promise<T | null> {
     const model = this.model as PaymentModel<T>;
+
     if (model.findPaymentById === undefined) {
       throw new MethodDoesntExistError("findPaymentById");
     }
-    return model.findPaymentById(id);
+
+    return model.findPaymentById(customerId, paymentId);
   }
 }
 

@@ -35,3 +35,10 @@ export class MissingError extends BaseError {
     super(statusCode, message);
   }
 }
+
+export class AcessDeniedError extends BaseError {
+  constructor(message: string) {
+    const statusCode = 403;
+    super(statusCode, message);
+  }
+}

@@ -3,7 +3,7 @@ import { CustomerModel } from "../models/model";
 import AccountModel from "../models/AccountModel";
 import Service from "./Service";
 
-class AccountServices extends Service<IAccount> {
+class AccountService extends Service<IAccount> {
   constructor(model: CustomerModel<IAccount> = new AccountModel()) {
     super(model);
   }
@@ -24,4 +24,4 @@ class AccountServices extends Service<IAccount> {
   }
 }
 
-export default AccountServices;
+export default AccountService;

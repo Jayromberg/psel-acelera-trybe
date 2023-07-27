@@ -10,20 +10,17 @@ class CustomerModel implements PaymentModel<ITransaction> {
     this.prismaClient = prisma;
   }
 
-  pay(customerId: string, data: ITransaction): Promise<ITransaction> {
-    const { date, value } = data;
-
-    return this.prismaClient.transaction.create({
-      data: {
-        customerId,
-        date,
-        value,
-      },
-    });
+  async pay(
+    customerId: string,
+    transactionData: ITransaction,
+  ): Promise<ITransaction> {
+    const { date, value } = transactionData;
+    const transaction = { customerId, date, value };
+    return this.prismaClient.transaction.create({ data: transaction });
   }
 
-  paymentsList(customerId: string): Promise<ITransaction[]> {
-    return this.prismaClient.transaction.findMany({
+  async getPaymentsList(customerId: string): Promise<ITransaction[]> {
+    const payments = await this.prismaClient.transaction.findMany({
       where: {
         customerId,
       },
@@ -35,12 +32,18 @@ class CustomerModel implements PaymentModel<ITransaction> {
         },
       },
     });
+
+    return payments;
   }
 
-  findPaymentById(id: string): Promise<ITransaction | null> {
-    return this.prismaClient.transaction.findUnique({
+  async findPaymentById(
+    customerId: string,
+    id: string,
+  ): Promise<ITransaction | null> {
+    const payment = await this.prismaClient.transaction.findUnique({
       where: {
         id,
+        customerId,
       },
       include: {
         cashback: {
@@ -50,6 +53,8 @@ class CustomerModel implements PaymentModel<ITransaction> {
         },
       },
     });
+
+    return payment;
   }
 }
 

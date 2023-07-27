@@ -1,16 +1,20 @@
 import * as bcrypt from "bcrypt";
-import { MissingError } from "../erros";
-import { IAccount } from "../interfaces";
+import { MissingError, AcessDeniedError } from "../erros";
 
-export async function hashPassword<T extends IAccount>({ password }: T) {
+export async function hashPassword(password: string) {
   if (!password) {
     throw new MissingError("Password is missing");
   }
 
-  const bcryptSalt = 10;
-  return await bcrypt.hash(password, bcryptSalt);
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  return hashedPassword;
 }
 
 export async function comparePassword(password: string, hash: string) {
-  return await bcrypt.compare(password, hash);
+  const isPasswordValid = await bcrypt.compare(password, hash);
+
+  if (!isPasswordValid) {
+    throw new AcessDeniedError("Password is invalid");
+  }
 }

@@ -10,8 +10,8 @@ class AccountModel implements CustomerModel<IAccount> {
     this.prismaClient = prisma;
   }
 
-  create(data: IAccount): Promise<IAccount> {
-    const { name, email, password, identifier } = data;
+  create(accountData: IAccount): Promise<IAccount> {
+    const { name, email, password, identifier } = accountData;
 
     return this.prismaClient.account.create({
       data: {
@@ -24,36 +24,23 @@ class AccountModel implements CustomerModel<IAccount> {
   }
 
   findAccountById(id: string): Promise<IAccount | null> {
-    return this.prismaClient.account.findUnique({
-      where: {
-        id,
-      },
-    });
+    const account = this.prismaClient.account.findUnique({ where: { id } });
+    return account;
   }
 
-  update(id: string, data: IAccount): Promise<IAccount> {
-    const { name, email, password } = data;
+  updateAccount(id: string, newData: IAccount): Promise<IAccount> {
+    const { name, email, password } = newData;
 
     return this.prismaClient.account.update({
-      where: {
-        id,
-      },
-      data: {
-        name,
-        email,
-        password,
-      },
+      where: { id },
+      data: { name, email, password },
     });
   }
 
   async delete(id: string): Promise<void> {
-    this.prismaClient.account.update({
-      where: {
-        id,
-      },
-      data: {
-        isActive: false,
-      },
+    await this.prismaClient.account.update({
+      where: { id },
+      data: { isActive: false },
     });
   }
 }

@@ -1,21 +1,25 @@
 import { Response, Request } from "express";
 import { accountSchema } from "./schemas/accountSchema";
-import AccountServices from "../services/AccountServices";
+import AccountService from "../services/AccountServices";
 import { NotFoundError } from "../erros";
 
 export const create = async (req: Request, res: Response) => {
-  const data = accountSchema.parse(req.body);
-  const accountServices = new AccountServices();
-  const account = await accountServices.create(data);
-  res.status(201).json(account);
+  const requestData = accountSchema.parse(req.body);
+  const accountService = new AccountService();
+  const createdAccount = await accountService.create(requestData);
+  res.status(201).json(createdAccount);
 };
 
 export const update = async (req: Request, res: Response) => {
-  if (!req.body.token) {
+  const { token } = req.body;
+
+  if (!token) {
     throw new NotFoundError("Token not found");
   }
-  const data = accountSchema.partial().parse(req.body);
-  const accountServices = new AccountServices();
-  const account = await accountServices.update(req.body.token, data);
-  res.status(200).json(account);
+
+  const updatedData = accountSchema.partial().parse(req.body);
+  const accountService = new AccountService();
+  const updatedAccount = await accountService.update(token, updatedData);
+
+  res.status(200).json(updatedAccount);
 };

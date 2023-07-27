@@ -1,9 +1,15 @@
 import * as jwt from "jsonwebtoken";
+import { IAccount } from "../interfaces";
 
-export function generateToken<T>(payload: Partial<T>) {
-  return jwt.sign(payload, process.env.JWT_SECRET);
+export function generateToken<T extends IAccount>(payloadData: Partial<T>) {
+  const { id, email, name } = payloadData;
+  const payload = { id, email, name };
+  const secret = process.env.JWT_SECRET;
+
+  return jwt.sign(payload, secret);
 }
 
 export function verifyToken(token: string) {
-  return jwt.verify(token, process.env.JWT_SECRET);
+  const secret = process.env.JWT_SECRET;
+  return jwt.verify(token, secret);
 }
