@@ -1,8 +1,13 @@
 import * as bcrypt from "bcrypt";
+import { MissingError } from "../erros";
+import { IAccount } from "../interfaces";
 
-const bcryptSalt = 10;
+export async function hashPassword<T extends IAccount>({ password }: T) {
+  if (!password) {
+    throw new MissingError("Password is missing");
+  }
 
-export async function hashPassword(password: string) {
+  const bcryptSalt = 10;
   return await bcrypt.hash(password, bcryptSalt);
 }
 

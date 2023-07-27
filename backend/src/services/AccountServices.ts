@@ -2,7 +2,6 @@ import { IAccount } from "../interfaces";
 import { CustomerModel } from "../models/model";
 import AccountModel from "../models/AccountModel";
 import Service from "./Service";
-import { hashPassword } from "../utils/bcrypt";
 
 class AccountServices extends Service<IAccount> {
   constructor(model: CustomerModel<IAccount> = new AccountModel()) {
@@ -10,7 +9,6 @@ class AccountServices extends Service<IAccount> {
   }
 
   async create(data: IAccount): Promise<{ token: string }> {
-    data.password = await hashPassword(data.password);
     return super.create(data);
   }
 

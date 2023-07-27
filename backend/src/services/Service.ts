@@ -1,7 +1,9 @@
 import { JwtPayload } from "jsonwebtoken";
 import { CustomerModel, PaymentModel } from "../models/model";
 import { MethodDoesntExistError } from "../erros";
+import { hashPassword } from "../utils/bcrypt";
 import { generateToken, verifyToken } from "../utils/jwt";
+import { IAccount } from "../interfaces";
 
 abstract class Service<T> {
   protected model: CustomerModel<T> | PaymentModel<T>;
@@ -9,18 +11,21 @@ abstract class Service<T> {
     this.model = model;
   }
 
-  async create(data: T): Promise<{ token: string }> {
-    const model = this.model as CustomerModel<T>;
-    if (model.create === undefined) {
+  async create<T extends IAccount>(data: T): Promise<{ token: string }> {
+    const model = this.model as unknown as CustomerModel<T>;
+
+    if (!model.create) {
       throw new MethodDoesntExistError("create");
     }
+
+    data.password = await hashPassword(data);
     const response = await model.create(data);
     return { token: generateToken<T>(response) };
   }
 
   async findAccountById(id: string): Promise<T | null> {
     const model = this.model as CustomerModel<T>;
-    if (model.findAccountById === undefined) {
+    if (!model.findAccountById) {
       throw new MethodDoesntExistError("findAccountById");
     }
     return model.findAccountById(id);
@@ -28,7 +33,7 @@ abstract class Service<T> {
 
   async update(token: string, data: Partial<T>): Promise<Partial<T>> {
     const model = this.model as CustomerModel<T>;
-    if (model.update === undefined) {
+    if (!model.update) {
       throw new MethodDoesntExistError("update");
     }
     const { id } = verifyToken(token) as JwtPayload;
@@ -37,7 +42,7 @@ abstract class Service<T> {
 
   async delete(id: string): Promise<void> {
     const model = this.model as CustomerModel<T>;
-    if (model.delete === undefined) {
+    if (!model.delete) {
       throw new MethodDoesntExistError("delete");
     }
     return model.delete(id);

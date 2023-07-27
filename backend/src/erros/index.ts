@@ -28,3 +28,10 @@ export class NotFoundError extends BaseError {
     super(statusCode, message);
   }
 }
+
+export class MissingError extends BaseError {
+  constructor(message: string) {
+    const statusCode = 400;
+    super(statusCode, message);
+  }
+}
