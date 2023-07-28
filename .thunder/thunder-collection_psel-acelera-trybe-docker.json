@@ -1,25 +1,77 @@
 {
     "client": "Thunder Client",
     "collectionName": "psel-acelera-trybe-docker",
-    "dateExported": "2023-07-25T15:25:28.606Z",
+    "dateExported": "2023-07-28T23:53:55.289Z",
     "version": "1.1",
     "folders": [],
     "requests": [
         {
+            "_id": "e7aa0a12-ffb7-4d35-ba61-45d8230f32ce",
+            "colId": "5f4d8fbf-6a8c-4020-abc3-dc8c31e03c73",
+            "containerId": "",
+            "name": "Verifica se o site está online - Docker",
+            "url": "http://localhost:4000/",
+            "method": "GET",
+            "sortNum": 5000,
+            "created": "2023-07-26T18:51:12.744Z",
+            "modified": "2023-07-26T18:51:35.216Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
             "_id": "68a96441-986d-47f7-86e2-ffa07a6d22e1",
             "colId": "5f4d8fbf-6a8c-4020-abc3-dc8c31e03c73",
             "containerId": "",
-            "name": "http://localhost:4000/account",
+            "name": "Cadastra de usuário - Docker ",
             "url": "http://localhost:4000/account",
             "method": "POST",
             "sortNum": 10000,
             "created": "2023-07-25T15:25:16.992Z",
-            "modified": "2023-07-25T15:25:16.992Z",
+            "modified": "2023-07-28T15:23:01.289Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"name\": \"jayromberg\",\n  \"email\": \"test@test.com\",\n  \"password\": \"1234ja\",\n  \"identifier\": \"12345689-11\"\n}\n",
+                "raw": "{\n  \"name\": \"jayromberg\",\n  \"email\": \"test@test.com\",\n  \"password\": \"1234ja\",\n  \"identifier\": \"123456789-10\"\n}\n",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "02e14463-6909-4418-bbe7-f75a2a897b13",
+            "colId": "5f4d8fbf-6a8c-4020-abc3-dc8c31e03c73",
+            "containerId": "",
+            "name": "Atualiza cadastro do usuário - Docker",
+            "url": "http://localhost:4000/account",
+            "method": "PATCH",
+            "sortNum": 15000,
+            "created": "2023-07-26T18:49:46.833Z",
+            "modified": "2023-07-28T23:37:37.320Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"jayro\",\n  \"email\": \"test@test.com\",\n  \"identifier\": \"123456789-10\",\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNsa244MjlsOTAwMDBwMTVmYnlrcWhqdnQiLCJuYW1lIjoiamF5cm9tYmVyZyIsImlhdCI6MTY5MDU4NzM1N30.urwG5S-GANap5knL3XMe1A5JI7nvr5FFRa2zD5V_HmI\"\n}\n",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "af5aa0ac-a970-48ed-a2c9-fedad0e379f0",
+            "colId": "5f4d8fbf-6a8c-4020-abc3-dc8c31e03c73",
+            "containerId": "",
+            "name": "Deleta cadastro de usuário - Docker",
+            "url": "http://localhost:4000/account",
+            "method": "DELETE",
+            "sortNum": 20000,
+            "created": "2023-07-28T23:38:12.880Z",
+            "modified": "2023-07-28T23:45:26.170Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"password\": \"1234j\",\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNsa244MjlsOTAwMDBwMTVmYnlrcWhqdnQiLCJuYW1lIjoiamF5cm9tYmVyZyIsImlhdCI6MTY5MDU4NzM1N30.urwG5S-GANap5knL3XMe1A5JI7nvr5FFRa2zD5V_HmI\"\n}",
                 "form": []
             },
             "tests": []
