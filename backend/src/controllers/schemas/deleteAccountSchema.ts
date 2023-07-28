@@ -8,7 +8,7 @@ const deleteAccountSchema = accountSchema
     identifier: true,
   })
   .extend({
-    token: z.string(),
+    token: z.string({ required_error: "Token is required" }),
   });
 
 export default deleteAccountSchema;
