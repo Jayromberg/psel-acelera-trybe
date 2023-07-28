@@ -1,9 +1,14 @@
 import { Router } from "express";
-import { create, update } from "../controllers/AccountController";
+import {
+  createAccount,
+  updateAccount,
+  deleteAccount,
+} from "../controllers/AccountController";
 
 const accountRoutes = Router();
 
-accountRoutes.post("/account", create);
-accountRoutes.patch("/account", update);
+accountRoutes.post("/account", createAccount);
+accountRoutes.patch("/account", updateAccount);
+accountRoutes.delete("/account", deleteAccount);
 
 export default accountRoutes;

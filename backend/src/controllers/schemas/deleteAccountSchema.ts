@@ -1,17 +1,14 @@
 import { z } from "zod";
 import accountSchema from "./createAccountSchema";
 
-const updateAccountSchema = accountSchema
+const deleteAccountSchema = accountSchema
   .omit({
+    name: true,
+    email: true,
     identifier: true,
   })
   .extend({
     token: z.string(),
-  })
-  .partial({
-    email: true,
-    name: true,
-    password: true,
   });
 
-export default updateAccountSchema;
+export default deleteAccountSchema;

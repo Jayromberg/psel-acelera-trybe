@@ -2,6 +2,7 @@ interface IBaseInterface {
   id?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  token?: string;
 }
 
 export interface IAccount extends IBaseInterface {
@@ -10,13 +11,6 @@ export interface IAccount extends IBaseInterface {
   password: string;
   identifier: string;
   isActive?: boolean;
-}
-
-export interface IUpdateAccount {
-  name?: string;
-  email?: string;
-  password: string;
-  token: string;
 }
 
 export interface ICashback extends IBaseInterface {

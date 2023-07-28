@@ -1,31 +1,39 @@
-import { IAccount, IUpdateAccount } from "../interfaces";
 import { CustomerModel } from "../models/model";
 import AccountModel from "../models/AccountModel";
 import Service from "./Service";
 import { comparePassword, hashPassword } from "../utils/bcrypt";
 import { verifyToken, JwtPayload, generateToken } from "../utils/jwt";
 import { NotFoundError } from "../erros";
+import { IAccess } from "../interfaces/access.interface";
+import {
+  IAccount,
+  ICreateAccount,
+  IDeleteAccount,
+  IUpdateAccount,
+} from "../interfaces/account.interface";
 
 class AccountService extends Service<IAccount> {
-  private id: string;
+  private id: string = "not found";
 
   constructor(model: CustomerModel<IAccount> = new AccountModel()) {
     super(model);
-    this.id = "not found";
   }
 
-  private async validateAccess(data: IUpdateAccount) {
-    const { token } = data;
+  private validateToken(token: string) {
     const { id } = verifyToken(token) as JwtPayload;
-    const accountData = await super.findAccountById(id);
+    this.id = id;
+  }
+
+  private async validateAccess(data: IAccess) {
+    this.validateToken(data.token);
+    const accountData = await super.findAccountById(this.id);
     if (!accountData) {
       throw new NotFoundError("Account not found");
     }
     await comparePassword(data.password, accountData.password);
-    this.id = id;
   }
 
-  async createAccount(data: IAccount): Promise<{ token: string }> {
+  async createAccount(data: ICreateAccount): Promise<{ token: string }> {
     const hashedPassword = await hashPassword(data.password);
     const response = await super.create({ ...data, password: hashedPassword });
     const token = generateToken(response);
@@ -33,15 +41,17 @@ class AccountService extends Service<IAccount> {
   }
 
   async updateAccount(data: IUpdateAccount): Promise<Partial<IAccount>> {
-    await this.validateAccess(data);
-    const { name, email, identifier, updatedAt } = await super.update(
-      this.id,
-      data,
-    );
+    this.validateToken(data.token);
+    if (data.password) {
+      const hashedPassword = await hashPassword(data.password);
+      data.password = hashedPassword;
+    }
+    const updatedAccount = await super.update(this.id, data);
+    const { name, email, identifier, updatedAt } = updatedAccount;
     return { name, email, identifier, updatedAt };
   }
 
-  async deleteAccount(data: IUpdateAccount): Promise<void> {
+  async deleteAccount(data: IDeleteAccount): Promise<void> {
     await this.validateAccess(data);
     super.delete(this.id);
   }
