@@ -12,6 +12,13 @@ export interface IAccount extends IBaseInterface {
   isActive?: boolean;
 }
 
+export interface IUpdateAccount {
+  name?: string;
+  email?: string;
+  password: string;
+  token: string;
+}
+
 export interface ICashback extends IBaseInterface {
   transactionId: string;
   cashback: number;
