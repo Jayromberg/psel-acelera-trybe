@@ -1,5 +1,5 @@
 import * as bcrypt from "bcrypt";
-import { MissingError, AcessDeniedError } from "../erros";
+import { MissingError, AccessDeniedError } from "../erros";
 
 export async function hashPassword(password: string) {
   if (!password) {
@@ -15,6 +15,6 @@ export async function comparePassword(password: string, hash: string) {
   const isPasswordValid = await bcrypt.compare(password, hash);
 
   if (!isPasswordValid) {
-    throw new AcessDeniedError("Password is invalid");
+    throw new AccessDeniedError("Password is invalid");
   }
 }
