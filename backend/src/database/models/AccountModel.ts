@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import prisma from "../database/prismaClient";
-import { IAccount } from "../interfaces";
+import prisma from "../prismaClient";
+import { IAccount } from "../../interfaces";
 import { CustomerModel } from "./model";
 
 class AccountModel implements CustomerModel<IAccount> {

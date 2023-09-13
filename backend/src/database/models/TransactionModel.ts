@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import prisma from "../database/prismaClient";
-import { ITransaction } from "../interfaces";
+import prisma from "../prismaClient";
+import { ITransaction } from "../../interfaces";
 import { PaymentModel } from "./model";
 
 class CustomerModel implements PaymentModel<ITransaction> {

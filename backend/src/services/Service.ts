@@ -1,4 +1,4 @@
-import { CustomerModel, PaymentModel } from "../models/model";
+import { CustomerModel, PaymentModel } from "../database/models/model";
 import { MethodDoesntExistError } from "../erros";
 
 abstract class Service<T> {

@@ -1,5 +1,5 @@
-import { CustomerModel } from "../models/model";
-import AccountModel from "../models/AccountModel";
+import { CustomerModel } from "../database/models/model";
+import AccountModel from "../database/models/AccountModel";
 import Service from "./Service";
 import { comparePassword, hashPassword } from "../utils/bcrypt";
 import { verifyToken, JwtPayload, generateToken } from "../utils/jwt";
