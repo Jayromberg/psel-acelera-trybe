@@ -17,40 +17,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model AccountType {
+  id      String    @id @default(uuid())
+  type    String
+  account Account[]
+
+  @@map("account_types")
+}
+
 model Account {
-  id         String        @id @default(cuid())
-  name       String
-  email      String        @unique
-  identifier String        @unique
-  password   String
-  isActive   Boolean       @default(true)
-  createdAt  DateTime      @default(now())
-  updatedAt  DateTime      @updatedAt
-  shopping   Transaction[]
+  id             String        @id @default(uuid())
+  name           String
+  email          String        @unique
+  documentNumber String        @unique
+  password       String
+  active         Boolean       @default(true)
+  accountType    String
+  type           AccountType   @relation(fields: [accountType], references: [id])
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  transaction    Transaction[]
+  cashback       Cashback[]
 
   @@map("accounts")
 }
 
 model Transaction {
-  id         String    @id @default(cuid())
-  customerId String
-  customer   Account   @relation(fields: [customerId], references: [id])
-  date       DateTime
-  value      Float
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  cashback   Cashback?
+  id        String    @id @default(uuid())
+  accountId String
+  account   Account   @relation(fields: [accountId], references: [id])
+  date      DateTime
+  amount    Float
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  cashback  Cashback?
 
   @@map("transactions")
 }
 
 model Cashback {
-  id            String      @id @default(cuid())
+  id            String      @id @default(uuid())
+  accountId     String
+  account       Account     @relation(fields: [accountId], references: [id])
   transactionId String      @unique
   transaction   Transaction @relation(fields: [transactionId], references: [id])
-  cashback      Float
+  rate          Float
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 
-  @@map("cashback")
+  @@map("cashbacks")
 }
