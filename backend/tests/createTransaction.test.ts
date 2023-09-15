@@ -5,7 +5,7 @@ import AccountSequelize from "../../src/Database/models/AccountSequelize";
 import CashbackSequelize from "../../src/Database/models/CashbackSequelize";
 import TransactionSequelize from "../../src/Database/models/TransactionSequelize";
 import AuthService from "../../src/Services/AuthService";
-import { App } from "../../src/app";
+import App from "../src/app";
 
 describe("#POST /accounts/:accountId/transactions", function () {
   const app = new App().start(3999);

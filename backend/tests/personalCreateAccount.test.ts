@@ -1,7 +1,7 @@
 import supertest from "supertest";
 import AccountSequelize from "../../src/Database/models/AccountSequelize";
-import { App } from "../../src/app";
-import { validCPFAccount } from "./mocks/PersonalAccount.mock";
+import App from "../src/app";
+import { validCPFAccount } from "./mocks/personalAccount.mock";
 
 describe("## POST /accounts", function () {
   const app = new App().start(3999);
