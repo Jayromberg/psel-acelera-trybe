@@ -1,7 +1,7 @@
 import supertest from "supertest";
 import { v4 as uuid } from "uuid";
-import db from "../../src/Database/models";
-import AccountSequelize from "../../src/Database/models/AccountSequelize";
+import db from "../src/database/prismaClient";
+import AccountModel from "../src/database/models/AccountModel";
 import CashbackSequelize from "../../src/Database/models/CashbackSequelize";
 import TransactionSequelize from "../../src/Database/models/TransactionSequelize";
 import AuthService from "../../src/Services/AuthService";
@@ -23,7 +23,7 @@ describe("#POST /accounts/:accountId/transactions", function () {
     AuthService.prototype.validateToken = jest
       .fn()
       .mockReturnValueOnce(userMock); // stub do token
-    AccountSequelize.findByPk = jest
+    AccountModel.prototype.findAccountById = jest
       .fn()
       .mockReturnValueOnce(userMock)
       .mockReturnValueOnce(userMock); // stub do usuário

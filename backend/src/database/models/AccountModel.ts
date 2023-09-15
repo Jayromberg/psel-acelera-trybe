@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import prisma from "../prismaClient";
+import db from "../prismaClient";
 import { IAccount } from "../../interfaces";
 import { CustomerModel } from "./model";
 
@@ -7,18 +7,18 @@ class AccountModel implements CustomerModel<IAccount> {
   private prismaClient: PrismaClient;
 
   constructor() {
-    this.prismaClient = prisma;
+    this.prismaClient = db;
   }
 
   create(accountData: IAccount): Promise<IAccount> {
-    const { name, email, password, identifier } = accountData;
+    const { name, email, password, documentNumber } = accountData;
 
     return this.prismaClient.account.create({
       data: {
         name,
         email,
         password,
-        identifier,
+        documentNumber,
       },
     });
   }
