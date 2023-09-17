@@ -23,7 +23,7 @@ class AccountModel implements CustomerModel<IAccount> {
     });
   }
 
-  findAccountById(id: string): Promise<IAccount | null> {
+  findByPk(id: string): Promise<IAccount | null> {
     const account = this.prismaClient.account.findUnique({ where: { id } });
     return account;
   }

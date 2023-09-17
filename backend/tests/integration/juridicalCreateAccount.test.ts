@@ -1,6 +1,6 @@
 import supertest from "supertest";
 import AccountSequelize from "../../src/Database/models/AccountSequelize";
-import App from "../src/app";
+import App from "../../src/app";
 import { validCNPJAccount } from "./mocks/juridicalAccount.mock";
 
 describe("## POST /accounts", function () {

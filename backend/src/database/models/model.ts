@@ -1,6 +1,6 @@
 export interface CustomerModel<T> {
   create(data: T): Promise<T>;
-  findAccountById(id: string): Promise<T | null>;
+  findByPk(id: string): Promise<T | null>;
   updateAccount(id: string, data: Partial<T>): Promise<T>;
   delete(id: string): Promise<void>;
 }
