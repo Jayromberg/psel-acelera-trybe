@@ -1,5 +1,5 @@
-import { CustomerModel } from "../database/models/model";
-import AccountModel from "../database/models/AccountModel";
+import { AccountModel } from "../database/models/model";
+import AccountPrisma from "../database/models/AccountPrisma";
 import Service from "./Service";
 import { comparePassword, hashPassword } from "../utils/bcrypt";
 import { verifyToken, JwtPayload, generateToken } from "../utils/jwt";
@@ -15,7 +15,7 @@ import {
 class AccountService extends Service<IAccount> {
   private id: string = "not found";
 
-  constructor(model: CustomerModel<IAccount> = new AccountModel()) {
+  constructor(model: AccountModel<IAccount> = new AccountPrisma()) {
     super(model);
   }
 

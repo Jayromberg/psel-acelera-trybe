@@ -1,16 +1,16 @@
 import { PrismaClient } from "@prisma/client";
 import prisma from "../prismaClient";
 import { ITransaction } from "../../interfaces";
-import { PaymentModel } from "./model";
+import { TransactionModel } from "./model";
 
-class CustomerModel implements PaymentModel<ITransaction> {
+class TransactionPrisma implements TransactionModel<ITransaction> {
   private prismaClient: PrismaClient;
 
   constructor() {
     this.prismaClient = prisma;
   }
 
-  async pay(
+  async create(
     customerId: string,
     transactionData: ITransaction,
   ): Promise<ITransaction> {
@@ -19,7 +19,7 @@ class CustomerModel implements PaymentModel<ITransaction> {
     return this.prismaClient.transaction.create({ data: transaction });
   }
 
-  async getPaymentsList(customerId: string): Promise<ITransaction[]> {
+  async findMany(customerId: string): Promise<ITransaction[]> {
     const payments = await this.prismaClient.transaction.findMany({
       where: {
         customerId,
@@ -36,10 +36,7 @@ class CustomerModel implements PaymentModel<ITransaction> {
     return payments;
   }
 
-  async findPaymentById(
-    customerId: string,
-    id: string,
-  ): Promise<ITransaction | null> {
+  async findByPk(customerId: string, id: string): Promise<ITransaction | null> {
     const payment = await this.prismaClient.transaction.findUnique({
       where: {
         id,
@@ -58,4 +55,4 @@ class CustomerModel implements PaymentModel<ITransaction> {
   }
 }
 
-export default CustomerModel;
+export default TransactionPrisma;

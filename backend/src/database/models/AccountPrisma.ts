@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import db from "../prismaClient";
 import { IAccount } from "../../interfaces";
-import { CustomerModel } from "./model";
+import { AccountModel } from "./model";
 
-class AccountModel implements CustomerModel<IAccount> {
+class AccountPrisma implements AccountModel<IAccount> {
   private prismaClient: PrismaClient;
 
   constructor() {
@@ -28,7 +28,7 @@ class AccountModel implements CustomerModel<IAccount> {
     return account;
   }
 
-  updateAccount(id: string, newData: IAccount): Promise<IAccount> {
+  update(id: string, newData: IAccount): Promise<IAccount> {
     const { name, email, password } = newData;
 
     return this.prismaClient.account.update({
@@ -45,4 +45,4 @@ class AccountModel implements CustomerModel<IAccount> {
   }
 }
 
-export default AccountModel;
+export default AccountPrisma;
