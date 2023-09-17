@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import prisma from "../prismaClient";
-import { ITransaction } from "../../interfaces";
 import { TransactionModel } from "./model";
+import Transaction from "../../types/Transaction";
 
-class TransactionPrisma implements TransactionModel<ITransaction> {
+class TransactionPrisma implements TransactionModel<Transaction> {
   private prismaClient: PrismaClient;
 
   constructor() {
@@ -11,23 +11,23 @@ class TransactionPrisma implements TransactionModel<ITransaction> {
   }
 
   async create(
-    customerId: string,
-    transactionData: ITransaction,
-  ): Promise<ITransaction> {
-    const { date, value } = transactionData;
-    const transaction = { customerId, date, value };
+    accountId: string,
+    transactionData: Transaction,
+  ): Promise<Transaction> {
+    const { date, amount } = transactionData;
+    const transaction = { accountId, date, amount };
     return this.prismaClient.transaction.create({ data: transaction });
   }
 
-  async findMany(customerId: string): Promise<ITransaction[]> {
+  async findMany(accountId: string): Promise<Transaction[]> {
     const payments = await this.prismaClient.transaction.findMany({
       where: {
-        customerId,
+        accountId,
       },
       include: {
         cashback: {
           select: {
-            cashback: true,
+            rate: true,
           },
         },
       },
@@ -36,16 +36,16 @@ class TransactionPrisma implements TransactionModel<ITransaction> {
     return payments;
   }
 
-  async findByPk(customerId: string, id: string): Promise<ITransaction | null> {
+  async findByPk(accountId: string, id: string): Promise<Transaction | null> {
     const payment = await this.prismaClient.transaction.findUnique({
       where: {
         id,
-        customerId,
+        accountId,
       },
       include: {
         cashback: {
           select: {
-            cashback: true,
+            rate: true,
           },
         },
       },

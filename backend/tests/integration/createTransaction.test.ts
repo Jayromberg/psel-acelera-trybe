@@ -3,7 +3,7 @@ import { v4 as uuid } from "uuid";
 import db from "../../src/database/prismaClient";
 import AccountPrisma from "../../src/database/models/AccountPrisma";
 import TransactionPrisma from "../../src/database/models/TransactionPrisma";
-import CashbackSequelize from "../../src/Database/models/CashbackSequelize";
+import CashbackPrisma from "../../src/database/models/CashbackPrisma";
 import AuthService from "../../src/Services/AuthService";
 import App from "../../src/app";
 
@@ -33,15 +33,15 @@ describe("#POST /accounts/:accountId/transactions", function () {
       amount: 100,
       date: new Date(),
     }); // stub da transação
-    CashbackSequelize.create = jest.fn().mockReturnValueOnce({
+    CashbackPrisma.prototype.create = jest.fn().mockReturnValueOnce({
       id: uuid(),
       accountId: userId,
       rate: 0.1,
       transactionId,
     }); // stub do cashback
-    db.transaction = jest
+    db.$transaction = jest
       .fn()
-      .mockReturnValueOnce({ commit: jest.fn(), rollback: jest.fn() }); // stub da transaction do sequelize
+      .mockReturnValueOnce({ commit: jest.fn(), rollback: jest.fn() }); // stub da transaction do prisma
 
     const response = await supertest(app)
       .post(`/accounts/${userId}/transactions`)
@@ -65,12 +65,12 @@ describe("#POST /accounts/:accountId/transactions", function () {
     AuthService.prototype.validateToken = jest
       .fn()
       .mockReturnValueOnce(userMock); // stub do token
-    AccountSequelize.findByPk = jest
+    AccountPrisma.prototype.findByPk = jest
       .fn()
       .mockReturnValueOnce(userMock)
       .mockReturnValueOnce(userMock); // stub do usuário
 
-    db.transaction = jest
+    db.$transaction = jest
       .fn()
       .mockReturnValueOnce({ commit: jest.fn(), rollback: jest.fn() }); // stub da transaction do sequelize
 
@@ -94,8 +94,8 @@ describe("#POST /accounts/:accountId/transactions", function () {
     AuthService.prototype.validateToken = jest
       .fn()
       .mockReturnValueOnce(userMock); // stub do token
-    AccountSequelize.findByPk = jest.fn().mockReturnValueOnce(undefined);
-    db.transaction = jest
+    AccountPrisma.prototype.findByPk = jest.fn().mockReturnValueOnce(undefined);
+    db.$transaction = jest
       .fn()
       .mockReturnValueOnce({ commit: jest.fn(), rollback: jest.fn() }); // stub da transaction do sequelize
 
@@ -128,11 +128,11 @@ describe("#POST /accounts/:accountId/transactions", function () {
     AuthService.prototype.validateToken = jest
       .fn()
       .mockReturnValueOnce(userMock); // stub do token
-    AccountSequelize.findByPk = jest
+    AccountPrisma.prototype.findByPk = jest
       .fn()
       .mockReturnValueOnce(userMock)
       .mockReturnValueOnce(userMock);
-    db.transaction = jest
+    db.$transaction = jest
       .fn()
       .mockReturnValueOnce({ commit: jest.fn(), rollback: jest.fn() }); // stub da transaction do sequelize
 

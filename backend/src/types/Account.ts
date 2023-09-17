@@ -5,7 +5,7 @@ type Account = {
   documentNumber: string;
   password: string;
   active: boolean;
-  accountType: number;
+  accountType: string;
 };
 
 export default Account;

@@ -1,17 +1,17 @@
 import { PrismaClient } from "@prisma/client";
 import db from "../prismaClient";
-import { IAccount } from "../../interfaces";
 import { AccountModel } from "./model";
+import Account from "../../types/Account";
 
-class AccountPrisma implements AccountModel<IAccount> {
+class AccountPrisma implements AccountModel<Account> {
   private prismaClient: PrismaClient;
 
   constructor() {
     this.prismaClient = db;
   }
 
-  create(accountData: IAccount): Promise<IAccount> {
-    const { name, email, password, documentNumber } = accountData;
+  create(accountData: Account): Promise<Account> {
+    const { name, email, password, documentNumber, accountType } = accountData;
 
     return this.prismaClient.account.create({
       data: {
@@ -19,16 +19,17 @@ class AccountPrisma implements AccountModel<IAccount> {
         email,
         password,
         documentNumber,
+        accountType,
       },
     });
   }
 
-  findByPk(id: string): Promise<IAccount | null> {
+  findByPk(id: string): Promise<Account | null> {
     const account = this.prismaClient.account.findUnique({ where: { id } });
     return account;
   }
 
-  update(id: string, newData: IAccount): Promise<IAccount> {
+  update(id: string, newData: Account): Promise<Account> {
     const { name, email, password } = newData;
 
     return this.prismaClient.account.update({
@@ -40,7 +41,7 @@ class AccountPrisma implements AccountModel<IAccount> {
   async delete(id: string): Promise<void> {
     await this.prismaClient.account.update({
       where: { id },
-      data: { isActive: false },
+      data: { active: false },
     });
   }
 }
