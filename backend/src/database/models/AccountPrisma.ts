@@ -24,6 +24,11 @@ class AccountPrisma implements AccountModel<Account> {
     });
   }
 
+  findAll(): Promise<Account[]> {
+    const accounts = this.prismaClient.account.findMany();
+    return accounts;
+  }
+
   findByPk(id: string): Promise<Account | null> {
     const account = this.prismaClient.account.findUnique({ where: { id } });
     return account;

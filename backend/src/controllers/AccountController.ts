@@ -3,7 +3,7 @@ import * as schema from "./schemas";
 import AccountService from "../services/AccountService";
 
 export const createAccount = async (req: Request, res: Response) => {
-  const requestData = schema.createAccountSchema.parse(req.body);
+  const requestData = schema.accountSchema.parse(req.body);
   const accountService = new AccountService();
   const createdAccount = await accountService.createAccount(requestData);
   res.status(201).json(createdAccount);

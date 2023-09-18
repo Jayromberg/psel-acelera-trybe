@@ -18,7 +18,7 @@ datasource db {
 }
 
 model AccountType {
-  id      String    @id @default(uuid())
+  id      Int       @id
   type    String
   account Account[]
 
@@ -32,8 +32,8 @@ model Account {
   documentNumber String        @unique
   password       String
   active         Boolean       @default(true)
-  accountType    String
-  type           AccountType   @relation(fields: [accountType], references: [id])
+  accountType    Int
+  account_type   AccountType   @relation(fields: [accountType], references: [id])
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
   transaction    Transaction[]

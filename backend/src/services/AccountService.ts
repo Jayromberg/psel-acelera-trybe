@@ -1,60 +1,61 @@
-import { AccountModel } from "../database/models/model";
 import AccountPrisma from "../database/models/AccountPrisma";
-import Service from "./Service";
-import { comparePassword, hashPassword } from "../utils/bcrypt";
-import { verifyToken, JwtPayload, generateToken } from "../utils/jwt";
-import { NotFoundError } from "../erros";
-import { IAccess } from "../interfaces/access.interface";
-import {
-  IAccount,
-  ICreateAccount,
-  IDeleteAccount,
-  IUpdateAccount,
-} from "../interfaces/account.interface";
+import * as entities from "../entities";
+import * as types from "../types";
+import JuridicalAccountService from "./JuridicalAccountService";
+import PersonalAccountService from "./PersonalAccountService";
+import { BadRequestError } from "../erros";
 
-class AccountService extends Service<IAccount> {
-  private id: string = "not found";
+export default class AccountService {
+  private _model: AccountPrisma;
 
-  constructor(model: AccountModel<IAccount> = new AccountPrisma()) {
-    super(model);
+  constructor() {
+    this._model = new AccountPrisma();
   }
 
-  private validateToken(token: string) {
-    const { id } = verifyToken(token) as JwtPayload;
-    this.id = id;
+  public async List(): Promise<AccountSequelize[]> {
+    const accounts = await this._model.findAll();
+    return accounts;
   }
 
-  private async validateAccess(data: IAccess) {
-    this.validateToken(data.token);
-    const accountData = await super.findAccountById(this.id);
-    if (!accountData) {
-      throw new NotFoundError("Account not found");
+  public async Find(id: string): Promise<AccountSequelize | null> {
+    const account = await this._model.findByPk(id);
+    return account;
+  }
+
+  public async Create(
+    account: types.Account,
+  ): Promise<entities.JuridicalAccount | entities.PersonAccount | Error> {
+    switch (account.accountType) {
+      case 1:
+        return await new PersonalAccountService(this._model).CreatePersonal(
+          account,
+        );
+      case 2:
+        return await new JuridicalAccountService(this._model).CreateJuridical(
+          account,
+        );
+      default:
+        throw new BadRequestError("Tipo de conta inválido");
     }
-    await comparePassword(data.password, accountData.password);
   }
 
-  async createAccount(data: ICreateAccount): Promise<{ token: string }> {
-    const hashedPassword = await hashPassword(data.password);
-    const response = await super.create({ ...data, password: hashedPassword });
-    const token = generateToken(response);
-    return { token };
-  }
-
-  async updateAccount(data: IUpdateAccount): Promise<Partial<IAccount>> {
-    this.validateToken(data.token);
-    if (data.password) {
-      const hashedPassword = await hashPassword(data.password);
-      data.password = hashedPassword;
+  public async Update(
+    updateAccount: Account,
+    loggedAccount: LoggedAccount,
+  ): Promise<void | Error> {
+    switch (updateAccount.accountType) {
+      case 1:
+        return await new PersonalAccountService(this._model).UpdatePersonal(
+          updateAccount,
+          loggedAccount,
+        );
+      case 2:
+        return await new JuridicalAccountService(this._model).UpdateJuridical(
+          updateAccount,
+          loggedAccount,
+        );
+      default:
+        throw new BadRequestError("Tipo de conta inválido");
     }
-    const updatedAccount = await super.update(this.id, data);
-    const { name, email, identifier, updatedAt } = updatedAccount;
-    return { name, email, identifier, updatedAt };
-  }
-
-  async deleteAccount(data: IDeleteAccount): Promise<void> {
-    await this.validateAccess(data);
-    super.delete(this.id);
   }
 }
-
-export default AccountService;

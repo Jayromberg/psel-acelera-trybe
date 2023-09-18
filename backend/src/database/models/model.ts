@@ -1,5 +1,6 @@
 export interface AccountModel<T> {
   create(accountData: T): Promise<T>;
+  findAll(): Promise<T[]>;
   findByPk(accountId: string): Promise<T | null>;
   update(accountId: string, accountData: Partial<T>): Promise<T>;
   delete(accountId: string): Promise<void>;
