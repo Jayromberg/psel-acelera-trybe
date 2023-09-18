@@ -1,3 +1,3 @@
-export { default as createAccountSchema } from "./createAccountSchema";
-export { default as updateAccountSchema } from "./updateAccountSchema";
-export { default as deleteAccountSchema } from "./deleteAccountSchema";
+export { default as accountSchema } from "./accountSchema";
+export { default as loginSchema } from "./loginSchema";
+export { default as transactionSchema } from "./transactionSchema";
