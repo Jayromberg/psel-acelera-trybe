@@ -4,7 +4,7 @@ import db from "../../src/database/prismaClient";
 import AccountPrisma from "../../src/database/models/AccountPrisma";
 import TransactionPrisma from "../../src/database/models/TransactionPrisma";
 import CashbackPrisma from "../../src/database/models/CashbackPrisma";
-import AuthService from "../../src/Services/AuthService";
+import AuthService from "../../src/services/AuthService";
 import App from "../../src/app";
 
 describe("#POST /accounts/:accountId/transactions", function () {

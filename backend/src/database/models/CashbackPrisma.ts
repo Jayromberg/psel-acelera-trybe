@@ -5,7 +5,7 @@ import Cashback from "../../types/Cashback";
 class CashbackPrisma implements CashbackModel<Cashback> {
   constructor(private prismaClient = db) {}
 
-  create(cashbackData: Cashback): Promise<Cashback> {
+  create(cashbackData: Omit<Cashback, "id">): Promise<Cashback> {
     const newCashback = {
       ...cashbackData,
     };

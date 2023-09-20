@@ -2,7 +2,7 @@ import AccountPrisma from "../database/models/AccountPrisma";
 import * as entities from "../entities";
 import * as types from "../types";
 import { BadRequestError, NotFoundError } from "../erros";
-import { encrypt, decrypt } from "../utils/crypt.ts";
+import { encrypt, decrypt } from "../utils/crypt";
 
 export default class JuridicalAccountService {
   constructor(private _model: AccountPrisma) {}

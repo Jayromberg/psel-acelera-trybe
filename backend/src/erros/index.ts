@@ -49,3 +49,10 @@ export class NotAuthorizedError extends BaseError {
     super(statusCode, message);
   }
 }
+
+export class ForbiddenError extends BaseError {
+  constructor(message: string) {
+    const statusCode = 403;
+    super(statusCode, message);
+  }
+}

@@ -5,13 +5,8 @@ import Transaction from "../../types/Transaction";
 class TransactionPrisma implements TransactionModel<Transaction> {
   constructor(private prismaClient = db) {}
 
-  async create(
-    accountId: string,
-    transactionData: Transaction,
-  ): Promise<Transaction> {
-    const { date, amount } = transactionData;
-    const transaction = { accountId, date, amount };
-    return this.prismaClient.transaction.create({ data: transaction });
+  async create(transactionData: Omit<Transaction, "id">): Promise<Transaction> {
+    return this.prismaClient.transaction.create({ data: transactionData });
   }
 
   async findMany(accountId: string): Promise<Transaction[]> {

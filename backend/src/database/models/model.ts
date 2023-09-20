@@ -10,11 +10,11 @@ export interface AccountModel<T> {
 }
 
 export interface TransactionModel<T> {
-  create(accountId: string, transactionData: T): Promise<T>;
+  create(transactionData: Omit<T, "id">): Promise<T>;
   findMany(accountId: string): Promise<T[]>;
   findByPk(accountId: string, transactionId: string): Promise<T | null>;
 }
 
 export interface CashbackModel<T> {
-  create(cashbackData: T): Promise<T>;
+  create(cashbackData: Omit<T, "id">): Promise<T>;
 }
