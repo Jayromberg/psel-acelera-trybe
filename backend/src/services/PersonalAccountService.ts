@@ -1,7 +1,7 @@
 import AccountPrisma from "../database/models/AccountPrisma";
 import * as entities from "../entities";
-import { BadRequestError, NotFoundError } from "../erros";
 import * as types from "../types";
+import { BadRequestError, NotFoundError } from "../erros";
 import { encrypt, decrypt } from "../utils/crypt.ts";
 
 export default class PersonalAccountService {

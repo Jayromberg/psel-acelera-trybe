@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
-import NotAuthorized from "../Errors/NotAuthorized";
+import { NotFoundError } from "../erros";
 
-const SECRET_KEY = process.env.SECRET_KEY || "password";
+const SECRET_KEY = process.env.JWT_SECRET;
 
 type payloadType = {
   id: number;
@@ -24,6 +24,6 @@ export const decodeToken = (token: string): payloadType => {
     const decoded = jwt.verify(token, SECRET_KEY);
     return decoded as payloadType;
   } catch (err) {
-    throw new NotAuthorized("Not authorized");
+    throw new NotFoundError("Not authorized");
   }
 };
