@@ -1,14 +1,10 @@
-import { PrismaClient } from "@prisma/client";
-import prisma from "../prismaClient";
+import db from "../prismaClient";
 import { CashbackModel } from "./model";
 import Cashback from "../../types/Cashback";
 
 class CashbackPrisma implements CashbackModel<Cashback> {
-  private prismaClient: PrismaClient;
+  constructor(private prismaClient = db) {}
 
-  constructor() {
-    this.prismaClient = prisma;
-  }
   create(cashbackData: Cashback): Promise<Cashback> {
     const newCashback = {
       ...cashbackData,

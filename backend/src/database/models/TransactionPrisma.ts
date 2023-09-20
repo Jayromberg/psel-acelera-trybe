@@ -1,14 +1,9 @@
-import { PrismaClient } from "@prisma/client";
-import prisma from "../prismaClient";
+import db from "../prismaClient";
 import { TransactionModel } from "./model";
 import Transaction from "../../types/Transaction";
 
 class TransactionPrisma implements TransactionModel<Transaction> {
-  private prismaClient: PrismaClient;
-
-  constructor() {
-    this.prismaClient = prisma;
-  }
+  constructor(private prismaClient = db) {}
 
   async create(
     accountId: string,

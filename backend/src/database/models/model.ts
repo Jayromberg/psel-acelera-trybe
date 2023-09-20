@@ -1,7 +1,10 @@
+import { Prisma } from "@prisma/client";
+
 export interface AccountModel<T> {
-  create(accountData: T): Promise<T>;
+  create(accountData: Omit<T, "id" | "active">): Promise<T>;
   findAll(): Promise<T[]>;
   findByPk(accountId: string): Promise<T | null>;
+  findOne(query: Prisma.AccountWhereUniqueInput): Promise<T | null>;
   update(accountId: string, accountData: Partial<T>): Promise<T>;
   delete(accountId: string): Promise<void>;
 }

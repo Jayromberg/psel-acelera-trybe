@@ -1,8 +1,8 @@
 import AccountPrisma from "../database/models/AccountPrisma";
 import * as entities from "../entities";
 import * as types from "../types";
-import JuridicalAccountService from "./JuridicalAccountService";
 import PersonalAccountService from "./PersonalAccountService";
+import JuridicalAccountService from "./JuridicalAccountService";
 import { BadRequestError } from "../erros";
 
 export default class AccountService {
@@ -12,12 +12,12 @@ export default class AccountService {
     this._model = new AccountPrisma();
   }
 
-  public async List(): Promise<AccountSequelize[]> {
+  public async List(): Promise<types.Account[]> {
     const accounts = await this._model.findAll();
     return accounts;
   }
 
-  public async Find(id: string): Promise<AccountSequelize | null> {
+  public async Find(id: string): Promise<types.Account | null> {
     const account = await this._model.findByPk(id);
     return account;
   }
@@ -40,8 +40,8 @@ export default class AccountService {
   }
 
   public async Update(
-    updateAccount: Account,
-    loggedAccount: LoggedAccount,
+    updateAccount: types.Account,
+    loggedAccount: types.LoggedAccount,
   ): Promise<void | Error> {
     switch (updateAccount.accountType) {
       case 1:
