@@ -4,7 +4,7 @@ import { NotFoundError } from "../erros";
 const SECRET_KEY = process.env.JWT_SECRET;
 
 type payloadType = {
-  id: number;
+  id: string;
   name: string;
   email: string;
 };

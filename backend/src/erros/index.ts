@@ -42,3 +42,10 @@ export class AccessDeniedError extends BaseError {
     super(statusCode, message);
   }
 }
+
+export class NotAuthorizedError extends BaseError {
+  constructor(message: string) {
+    const statusCode = 401;
+    super(statusCode, message);
+  }
+}

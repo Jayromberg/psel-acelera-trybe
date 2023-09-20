@@ -68,7 +68,7 @@ export default class PersonalAccountService {
     await this._model.update(updateAccount.id, {
       name: updateAccount.name,
       email: updateAccount.email,
-      password: accountDatabase.password,
+      password: updateAccount.password,
     });
   }
 
