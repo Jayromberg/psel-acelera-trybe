@@ -36,7 +36,7 @@ class AccountPrisma implements AccountModel<Account> {
     });
   }
 
-  update(id: string, newData: Account): Promise<Account> {
+  update(id: string, newData: Partial<Account>): Promise<Account> {
     const { name, email, password } = newData;
 
     return this.prismaClient.account.update({

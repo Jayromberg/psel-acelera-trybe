@@ -6,6 +6,7 @@ declare namespace NodeJS {
     readonly API_PORT: string;
     readonly API_HOST: string;
     readonly JWT_SECRET: string;
+    readonly SECRET_KEY: string;
 
     readonly POSTGRES_USER: string;
     readonly POSTGRES_PASSWORD: string;

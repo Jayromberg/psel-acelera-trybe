@@ -2,7 +2,7 @@ import AccountPrisma from "../database/models/AccountPrisma";
 import * as entities from "../entities";
 import { BadRequestError, NotFoundError } from "../erros";
 import * as types from "../types";
-import { hashPassword, comparePassword } from "../utils/bcrypt";
+import { encrypt, decrypt } from "../utils/crypt.ts";
 
 export default class PersonalAccountService {
   constructor(private _model: AccountPrisma) {}
@@ -30,7 +30,7 @@ export default class PersonalAccountService {
 
     if (CPFAlreadyRegistered) throw new BadRequestError("CPF já cadastrado");
 
-    const encryptedPassword = await hashPassword(account.password);
+    const encryptedPassword = encrypt(account.password);
     newAccount.password = encryptedPassword;
 
     await this._model.create({
@@ -44,22 +44,6 @@ export default class PersonalAccountService {
     return newAccount;
   }
 
-  private validateUpdateAccount(
-    updateAccount: types.Account,
-    accountDatabase: AccountPrisma,
-  ) {
-    if (
-      accountDatabase.dataValues.documentNumber !== updateAccount.documentNumber
-    ) {
-      throw new BadRequestError("CPF não pode ser alterado");
-    }
-    if (
-      +accountDatabase.dataValues.accountType !== +updateAccount.accountType
-    ) {
-      throw new BadRequestError("Tipo de conta não pode ser alterado");
-    }
-  }
-
   public async UpdatePersonal(
     updateAccount: types.Account,
     loggedAccount: types.LoggedAccount,
@@ -67,27 +51,36 @@ export default class PersonalAccountService {
     const accountDatabase = await this._model.findByPk(updateAccount.id);
 
     if (!accountDatabase) throw new NotFoundError("Conta não encontrada");
+
     if (accountDatabase.id !== loggedAccount.id) {
       throw new BadRequestError(
         "Você não pode alterar os dados de outra conta",
       );
     }
-    if (updateAccount.password !== comparePassword(accountDatabase.password)) {
-      const encryptedPassword = await hashPassword(updateAccount.password);
+
+    if (updateAccount.password !== decrypt(accountDatabase.password)) {
+      const encryptedPassword = encrypt(updateAccount.password);
       updateAccount.password = encryptedPassword;
     }
 
     this.validateUpdateAccount(updateAccount, accountDatabase);
 
-    await this._model.update(
-      {
-        name: updateAccount.name,
-        email: updateAccount.email,
-        password: accountDatabase.password,
-      },
-      {
-        where: { id: updateAccount.id },
-      },
-    );
+    await this._model.update(updateAccount.id, {
+      name: updateAccount.name,
+      email: updateAccount.email,
+      password: accountDatabase.password,
+    });
+  }
+
+  private validateUpdateAccount(
+    updateAccount: types.Account,
+    accountDatabase: types.Account,
+  ) {
+    if (accountDatabase.documentNumber !== updateAccount.documentNumber) {
+      throw new BadRequestError("CPF não pode ser alterado");
+    }
+    if (+accountDatabase.accountType !== +updateAccount.accountType) {
+      throw new BadRequestError("Tipo de conta não pode ser alterado");
+    }
   }
 }
