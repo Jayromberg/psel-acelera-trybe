@@ -1,5 +1,5 @@
 import supertest from "supertest";
-import AccountSequelize from "../../src/Database/models/AccountSequelize";
+import AccountPrisma from "../../src/database/models/AccountPrisma";
 import App from "../../src/app";
 import { validCNPJAccount } from "./mocks/juridicalAccount.mock";
 
@@ -12,11 +12,11 @@ describe("## POST /accounts", function () {
   });
 
   test("deve ser possível registrar uma conta CNPJ com sucesso", async () => {
-    AccountSequelize.findOne = jest
+    AccountPrisma.prototype.findOne = jest
       .fn()
       .mockResolvedValueOnce(null)
       .mockResolvedValueOnce(null);
-    AccountSequelize.create = jest.fn().mockResolvedValueOnce(null);
+    AccountPrisma.prototype.create = jest.fn().mockResolvedValueOnce(null);
 
     const response = await supertest(app)
       .post("/accounts")
@@ -27,11 +27,11 @@ describe("## POST /accounts", function () {
   });
 
   test("não deve ser possível cadastrar uma conta no CNPJ com um e-mail já cadastrado", async () => {
-    AccountSequelize.findOne = jest
+    AccountPrisma.prototype.findOne = jest
       .fn()
       .mockResolvedValueOnce(validCNPJAccount);
 
-    AccountSequelize.create = jest.fn().mockResolvedValueOnce(null);
+    AccountPrisma.prototype.create = jest.fn().mockResolvedValueOnce(null);
 
     const response = await supertest(app)
       .post("/accounts")
@@ -41,12 +41,12 @@ describe("## POST /accounts", function () {
   });
 
   test("não deveria ser possível cadastrar uma conta CNPJ com um CNPJ já cadastrado", async () => {
-    AccountSequelize.findOne = jest
+    AccountPrisma.prototype.findOne = jest
       .fn()
       .mockResolvedValueOnce(null)
       .mockResolvedValueOnce({ ...validCNPJAccount, email: "test@mail.com" });
 
-    AccountSequelize.create = jest.fn().mockResolvedValueOnce(null);
+    AccountPrisma.prototype.create = jest.fn().mockResolvedValueOnce(null);
 
     const response = await supertest(app)
       .post("/accounts")
@@ -56,7 +56,7 @@ describe("## POST /accounts", function () {
   });
 
   test("não deveria ser possível cadastrar uma conta CNPJ com um e-mail inválido", async () => {
-    AccountSequelize.create = jest.fn().mockResolvedValueOnce(null);
+    AccountPrisma.prototype.create = jest.fn().mockResolvedValueOnce(null);
 
     const response = await supertest(app)
       .post("/accounts")
@@ -67,12 +67,12 @@ describe("## POST /accounts", function () {
   });
 
   test("não deve ser possível cadastrar uma conta CNPJ com um número de documento inválido", async () => {
-    AccountSequelize.findOne = jest
+    AccountPrisma.prototype.findOne = jest
       .fn()
       .mockResolvedValueOnce(null)
       .mockResolvedValueOnce(null);
 
-    AccountSequelize.create = jest.fn().mockResolvedValueOnce(null);
+    AccountPrisma.prototype.create = jest.fn().mockResolvedValueOnce(null);
 
     const response = await supertest(app)
       .post("/accounts")
@@ -83,7 +83,7 @@ describe("## POST /accounts", function () {
   });
 
   test("não deveria ser possível cadastrar uma conta CNPJ com uma senha inválida com 5 caracteres", async () => {
-    AccountSequelize.create = jest.fn().mockResolvedValueOnce(null);
+    AccountPrisma.prototype.create = jest.fn().mockResolvedValueOnce(null);
 
     const response = await supertest(app)
       .post("/accounts")
@@ -96,7 +96,7 @@ describe("## POST /accounts", function () {
   });
 
   test("não deve ser possível cadastrar uma conta CNPJ com uma senha inválida com 65 caracteres", async () => {
-    AccountSequelize.create = jest.fn().mockResolvedValueOnce(null);
+    AccountPrisma.prototype.create = jest.fn().mockResolvedValueOnce(null);
 
     const response = await supertest(app)
       .post("/accounts")

@@ -1,5 +1,5 @@
 import supertest from "supertest";
-import AccountSequelize from "../../src/Database/models/AccountSequelize";
+import AccountPrisma from "../../src/database/models/AccountPrisma";
 import App from "../../src/app";
 
 describe("## POST /login", function () {
@@ -11,7 +11,7 @@ describe("## POST /login", function () {
   });
 
   test("it should be possible to login a account successfully", async () => {
-    AccountSequelize.findOne = jest.fn().mockReturnValueOnce({
+    AccountPrisma.prototype.findOne = jest.fn().mockReturnValueOnce({
       id: 1,
       name: "John",
       email: "j@mail.com",
@@ -28,7 +28,7 @@ describe("## POST /login", function () {
   });
 
   test("it not should be possible to login a account with invalid email", async () => {
-    AccountSequelize.findOne = jest.fn().mockReturnValueOnce(null);
+    AccountPrisma.prototype.findOne = jest.fn().mockReturnValueOnce(null);
 
     const response = await supertest(app).post("/login").send({
       email: "j@mail.com",
@@ -40,7 +40,7 @@ describe("## POST /login", function () {
   });
 
   test("it not should be possible to login a account with invalid password", async () => {
-    AccountSequelize.findOne = jest.fn().mockReturnValueOnce({
+    AccountPrisma.prototype.findOne = jest.fn().mockReturnValueOnce({
       id: 1,
       name: "John",
       email: "j@mail.com",

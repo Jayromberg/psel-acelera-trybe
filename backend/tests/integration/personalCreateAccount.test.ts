@@ -1,5 +1,5 @@
 import supertest from "supertest";
-import AccountSequelize from "../../src/Database/models/AccountSequelize";
+import AccountPrisma from "../../src/database/models/AccountPrisma";
 import App from "../../src/app";
 import { validCPFAccount } from "./mocks/personalAccount.mock";
 
@@ -12,11 +12,11 @@ describe("## POST /accounts", function () {
   });
 
   test("deve ser possível registrar uma conta CPF com sucesso", async () => {
-    AccountSequelize.findOne = jest
+    AccountPrisma.prototype.findOne = jest
       .fn()
       .mockResolvedValueOnce(null)
       .mockResolvedValueOnce(null);
-    AccountSequelize.create = jest.fn().mockResolvedValueOnce(null);
+    AccountPrisma.prototype.create = jest.fn().mockResolvedValueOnce(null);
 
     const response = await supertest(app)
       .post("/accounts")
@@ -27,9 +27,11 @@ describe("## POST /accounts", function () {
   });
 
   test("não deve ser possível cadastrar uma conta CPF com um e-mail já cadastrado", async () => {
-    AccountSequelize.findOne = jest.fn().mockResolvedValueOnce(validCPFAccount);
+    AccountPrisma.prototype.findOne = jest
+      .fn()
+      .mockResolvedValueOnce(validCPFAccount);
 
-    AccountSequelize.create = jest.fn().mockResolvedValueOnce(null);
+    AccountPrisma.prototype.create = jest.fn().mockResolvedValueOnce(null);
 
     const response = await supertest(app)
       .post("/accounts")
@@ -39,12 +41,12 @@ describe("## POST /accounts", function () {
   });
 
   test("não deve ser possível cadastrar uma conta CPF com um CPF já cadastrado", async () => {
-    AccountSequelize.findOne = jest
+    AccountPrisma.prototype.findOne = jest
       .fn()
       .mockResolvedValueOnce(null)
       .mockResolvedValueOnce({ ...validCPFAccount, email: "test@mail.com" });
 
-    AccountSequelize.create = jest.fn().mockResolvedValueOnce(null);
+    AccountPrisma.prototype.create = jest.fn().mockResolvedValueOnce(null);
 
     const response = await supertest(app)
       .post("/accounts")
@@ -54,7 +56,7 @@ describe("## POST /accounts", function () {
   });
 
   test("não deve ser possível cadastrar uma conta CPF com um e-mail inválido", async () => {
-    AccountSequelize.create = jest.fn().mockResolvedValueOnce(null);
+    AccountPrisma.prototype.create = jest.fn().mockResolvedValueOnce(null);
 
     const response = await supertest(app)
       .post("/accounts")
@@ -65,7 +67,7 @@ describe("## POST /accounts", function () {
   });
 
   test("não deve ser possível registrar uma conta CPF com um nome inválido", async () => {
-    AccountSequelize.create = jest.fn().mockResolvedValueOnce(null);
+    AccountPrisma.prototype.create = jest.fn().mockResolvedValueOnce(null);
 
     const response = await supertest(app)
       .post("/accounts")
@@ -78,7 +80,7 @@ describe("## POST /accounts", function () {
   });
 
   test("não deve ser possível registrar uma conta CPF com um número de documento inválido", async () => {
-    AccountSequelize.create = jest.fn().mockResolvedValueOnce(null);
+    AccountPrisma.prototype.create = jest.fn().mockResolvedValueOnce(null);
 
     const response = await supertest(app)
       .post("/accounts")
@@ -89,7 +91,7 @@ describe("## POST /accounts", function () {
   });
 
   test("não deve ser possível cadastrar uma conta de CPF com uma senha inválida com 5 caracteres", async () => {
-    AccountSequelize.create = jest.fn().mockResolvedValueOnce(null);
+    AccountPrisma.prototype.create = jest.fn().mockResolvedValueOnce(null);
 
     const response = await supertest(app)
       .post("/accounts")
@@ -102,7 +104,7 @@ describe("## POST /accounts", function () {
   });
 
   test("não deve ser possível cadastrar uma conta de CPF com uma senha inválida com 65 caracteres", async () => {
-    AccountSequelize.create = jest.fn().mockResolvedValueOnce(null);
+    AccountPrisma.prototype.create = jest.fn().mockResolvedValueOnce(null);
 
     const response = await supertest(app)
       .post("/accounts")
