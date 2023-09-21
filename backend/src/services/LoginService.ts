@@ -1,3 +1,4 @@
+import db from "../database/prismaClient";
 import AccountPrisma from "../database/models/AccountPrisma";
 import { BadRequestError } from "../erros";
 import Login from "../types/Login";
@@ -6,8 +7,9 @@ import { generateToken } from "../utils/tokenTools";
 
 export default class LoginService {
   private _model: AccountPrisma;
+
   constructor() {
-    this._model = new AccountPrisma();
+    this._model = new AccountPrisma(db);
   }
 
   public async Login(data: Login) {

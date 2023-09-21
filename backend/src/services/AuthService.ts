@@ -1,3 +1,4 @@
+import db from "../database/prismaClient";
 import AccountPrisma from "../database/models/AccountPrisma";
 import { NotAuthorizedError } from "../erros";
 import { decodeToken } from "../utils/tokenTools";
@@ -6,7 +7,7 @@ export default class AuthService {
   private _accountModel: AccountPrisma;
 
   constructor() {
-    this._accountModel = new AccountPrisma();
+    this._accountModel = new AccountPrisma(db);
   }
 
   public async validateToken(token: string) {

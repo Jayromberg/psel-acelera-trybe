@@ -14,10 +14,10 @@ export default class TransactionService {
   private _cashbackService: CashbackService;
 
   constructor() {
-    this._transactionModel = new TransactionPrisma();
-    this._cashbackModel = new CashbackPrisma();
-    this._cashbackService = new CashbackService();
+    this._transactionModel = new TransactionPrisma(db);
+    this._cashbackModel = new CashbackPrisma(db);
     this._accountService = new AccountService();
+    this._cashbackService = new CashbackService();
   }
 
   public async create(
@@ -25,7 +25,7 @@ export default class TransactionService {
     amount: number,
     loggedUser: types.LoggedAccount,
   ) {
-    await db.$transaction(async (tx) => {
+    await db.$transaction(async () => {
       await this.UserExists(accountId);
       await this.ThisUserTransaction(accountId, loggedUser.id);
 
