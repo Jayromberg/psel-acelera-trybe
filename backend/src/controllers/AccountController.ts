@@ -1,24 +1,30 @@
-import { Response, Request } from "express";
-import * as schema from "./schemas";
+import { Request, Response } from "express";
 import AccountService from "../services/AccountService";
+import LoggedAccount from "../types/LoggedAccount";
+import * as schemas from "./schemas";
 
-export const createAccount = async (req: Request, res: Response) => {
-  const requestData = schema.accountSchema.parse(req.body);
-  const accountService = new AccountService();
-  const createdAccount = await accountService.createAccount(requestData);
-  res.status(201).json(createdAccount);
-};
+export default class AccountController {
+  constructor(private _accountService = new AccountService()) {}
 
-export const updateAccount = async (req: Request, res: Response) => {
-  const updatedData = schema.updateAccountSchema.parse(req.body);
-  const accountService = new AccountService();
-  const updatedAccount = await accountService.updateAccount(updatedData);
-  res.status(200).json(updatedAccount);
-};
+  public async CreateAccount(req: Request, res: Response) {
+    schemas.accountSchema.parse(req.body);
+    await this._accountService.Create(req.body);
+    return res.status(201).json({ message: "Conta criada" });
+  }
 
-export const deleteAccount = async (req: Request, res: Response) => {
-  const deleteData = schema.deleteAccountSchema.parse(req.body);
-  const accountService = new AccountService();
-  const deletedAccount = await accountService.deleteAccount(deleteData);
-  res.status(200).json(deletedAccount);
-};
+  public async UpdateAccount(req: Request, res: Response) {
+    const loggedAccount = req.body.user as LoggedAccount;
+    const { accountId } = req.params;
+
+    delete req.body.user;
+
+    schemas.accountSchema.parse(req.body);
+
+    await this._accountService.Update(
+      { id: accountId, ...req.body },
+      loggedAccount,
+    );
+
+    return res.status(200).json({ message: "Conta editada" });
+  }
+}

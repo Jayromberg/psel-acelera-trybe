@@ -1,3 +1,4 @@
+import db from "../database/prismaClient";
 import AccountPrisma from "../database/models/AccountPrisma";
 import * as entities from "../entities";
 import * as types from "../types";
@@ -9,7 +10,7 @@ export default class AccountService {
   private _model: AccountPrisma;
 
   constructor() {
-    this._model = new AccountPrisma();
+    this._model = new AccountPrisma(db);
   }
 
   public async List(): Promise<types.Account[]> {
