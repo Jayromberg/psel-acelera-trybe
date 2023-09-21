@@ -11,7 +11,7 @@ class AccountPrisma implements AccountModel<Account> {
 
   create(accountData: Omit<Account, "id" | "active">): Promise<Account> {
     const { name, email, password, documentNumber, accountType } = accountData;
-
+    console.log(accountData);
     return this._prismaClient.account.create({
       data: {
         name,

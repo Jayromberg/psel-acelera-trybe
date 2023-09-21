@@ -14,7 +14,8 @@
     "db:studio": "prisma studio",
     "db:generate": "prisma generate",
     "db:format": "prisma format",
-    "db:push": "prisma db push"
+    "db:push": "prisma db push",
+    "test:integration": "jest  tests/integration --runInBand --detectOpenHandles --verbose"
   },
   "dependencies": {
     "@prisma/client": "^5.0.0",
@@ -45,6 +46,7 @@
     "prisma": "^5.0.0",
     "prisma-erd-generator": "^1.8.0",
     "supertest": "^6.3.3",
+    "ts-jest": "^29.1.1",
     "tsx": "^3.12.7",
     "typescript": "^5.1.6"
   }
