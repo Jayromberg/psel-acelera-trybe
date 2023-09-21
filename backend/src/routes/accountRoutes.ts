@@ -1,14 +1,40 @@
-import { Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import {
-  createAccount,
-  updateAccount,
-  deleteAccount,
-} from "../controllers/AccountController";
+  AccountController,
+  AuthController,
+  TransactionController,
+} from "../controllers";
 
-const accountRoutes = Router();
+const router = Router();
+const accountController = new AccountController();
+const transactionController = new TransactionController();
+const authController = new AuthController();
 
-accountRoutes.post("/account", createAccount);
-accountRoutes.patch("/account", updateAccount);
-accountRoutes.delete("/account", deleteAccount);
+const authMiddleware = (req: Request, res: Response, next: NextFunction) =>
+  authController.validateToken(req, res, next);
 
-export default accountRoutes;
+router.post("/accounts", (req: Request, res: Response) =>
+  accountController.CreateAccount(req, res),
+);
+
+router.post(
+  "/accounts/:accountId/transactions",
+  authMiddleware,
+  (req: Request, res: Response) =>
+    transactionController.CreateTransaction(req, res),
+);
+
+router.get(
+  "/accounts/:accountId/transactions",
+  authMiddleware,
+  (req: Request, res: Response) =>
+    transactionController.UserTransactions(req, res),
+);
+
+router.put(
+  "/accounts/:accountId",
+  authMiddleware,
+  (req: Request, res: Response) => accountController.UpdateAccount(req, res),
+);
+
+export default router;
